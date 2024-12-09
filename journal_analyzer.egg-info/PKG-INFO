@@ -1,0 +1,53 @@
+Metadata-Version: 2.1
+Name: journal_analyzer
+Version: 0.1.0
+Summary: A Python library for analyzing personal journals using emotional pattern detection
+Home-page: https://github.com/yourusername/journal_analyzer
+Author: Your Name
+Author-email: your.email@example.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: openai>=1.55.3
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: plotly>=5.0.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: tqdm>=4.65.0
+
+# Journal Analyzer
+
+A Python library for analyzing personal journals using emotional pattern detection, embedding-based analysis, and interactive visualizations.
+
+## Features
+- Emotional pattern analysis using GPT-4 and embeddings
+- Multi-modal visualization of emotional journeys
+- Pattern clustering and trend detection
+- Secure input processing and validation
+- Interactive HTML report generation
+
+## Installation
+```bash
+# TODO: Add installation instructions
+pip install journal-analyzer
+```
+
+## Quick Start
+```python
+# TODO: Add quick start example
+from journal_analyzer import JournalAnalyzer
+
+analyzer = JournalAnalyzer()
+analyzer.process_entries("path/to/journals")
+analyzer.generate_visualizations()
+```
+
+## Security
+This library implements robust input validation and prompt injection protection. See the security documentation for details.
+
+## Requirements
+- Python 3.8+
+- OpenAI API key
+- Required packages listed in requirements.txt

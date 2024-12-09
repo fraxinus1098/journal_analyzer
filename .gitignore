@@ -1,0 +1,5 @@
+# In terminal, set for current session
+export OPENAI_API_KEY="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"
+
+# Or add to your ~/.bashrc or ~/.zshrc for persistence
+echo 'export OPENAI_API_KEY="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"' >> ~/.bashrc
