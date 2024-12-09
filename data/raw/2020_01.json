@@ -1,0 +1,122 @@
+[
+    {
+        "date": "2020-01-01",
+        "day_of_week": "Wednesday",
+        "content": "Today was a great start to the new year. Feeling optimistic about what's ahead. Made some solid resolutions and already started working on them.",
+        "word_count": 24,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-02",
+        "day_of_week": "Thursday",
+        "content": "Had a productive day at work. Made significant progress on the project. Team seems energized after the break. Looking forward to our upcoming milestones.",
+        "word_count": 26,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-03",
+        "day_of_week": "Friday",
+        "content": "Feeling a bit tired today, but managed to complete my tasks. The weather is gloomy which isn't helping my energy levels. Might need extra rest this weekend.",
+        "word_count": 28,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-05",
+        "day_of_week": "Sunday",
+        "content": "Spent the day recharging. Had a great meditation session and caught up with family. Feeling much more balanced and ready for the week ahead.",
+        "word_count": 25,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-08",
+        "day_of_week": "Wednesday",
+        "content": "Received unexpected praise for my recent work. Feeling proud and motivated. The new project challenges are exciting rather than daunting now.",
+        "word_count": 22,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-12",
+        "day_of_week": "Sunday",
+        "content": "Anxiety creeping in about next week's deadlines. Having trouble sleeping. Need to work on better stress management strategies.",
+        "word_count": 19,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-15",
+        "day_of_week": "Wednesday",
+        "content": "Started a new workout routine. It's challenging but invigorating. Already noticing improvements in my energy levels and mood.",
+        "word_count": 20,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-20",
+        "day_of_week": "Monday",
+        "content": "Feeling overwhelmed with work and personal commitments. Everything seems to be happening at once. Need to practice the breathing exercises more.",
+        "word_count": 23,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-25",
+        "day_of_week": "Saturday",
+        "content": "Had a breakthrough in understanding a complex problem at work. The solution seems so obvious now. Confidence is definitely building.",
+        "word_count": 21,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-30",
+        "day_of_week": "Thursday",
+        "content": "Reflecting on January - it's been a month of growth. Despite some stressful moments, I've developed better coping strategies. Proud of the progress.",
+        "word_count": 27,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-06",
+        "day_of_week": "Monday",
+        "content": "Back to work after the long weekend. Found a new way to organize my tasks that's really clicking. The team liked my suggestions in the morning standup.",
+        "word_count": 28,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-10",
+        "day_of_week": "Friday",
+        "content": "Tough meeting today where we had to revise project timelines. Feeling frustrated but trying to focus on solutions rather than problems. Need to realign expectations.",
+        "word_count": 26,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-16",
+        "day_of_week": "Thursday",
+        "content": "Had a great mentoring session with Sarah. Her insights about leadership really resonated. Starting to see my career path more clearly now.",
+        "word_count": 21,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-22",
+        "day_of_week": "Wednesday",
+        "content": "Winter blues hitting hard today. The dark mornings are making it tough to get going. Started using my light therapy lamp - hoping it helps.",
+        "word_count": 24,
+        "month": 1,
+        "year": 2020
+    },
+    {
+        "date": "2020-01-28",
+        "day_of_week": "Tuesday",
+        "content": "Big breakthrough in team dynamics today. The new communication framework is making a real difference. Everyone seems more engaged and collaborative.",
+        "word_count": 22,
+        "month": 1,
+        "year": 2020
+    }
+]

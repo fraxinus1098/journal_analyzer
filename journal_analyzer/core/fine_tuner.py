@@ -10,6 +10,7 @@ from pathlib import Path
 import json
 import asyncio
 from datetime import datetime
+from ..models.entry import JournalEntry
 
 from openai import OpenAI
 import numpy as np
@@ -19,7 +20,7 @@ from .training_data import TrainingDataGenerator
 from .fine_tuning import FineTuningManager
 from .embeddings import EmbeddingGenerator
 from ..models.training import TrainingExample, DatasetConfig, ValidationMetrics
-from ..models.patterns import EmotionalPattern
+from ..models.patterns import EmotionalPattern, PatternTimespan, EmotionalIntensity
 from ..config import Config
 from ..utils.file_handler import FileHandler
 
@@ -196,8 +197,48 @@ class JournalFineTuner:
             
             with open(pattern_file) as f:
                 pattern_data = json.load(f)
-                # Convert JSON to EmotionalPattern objects
-                return [EmotionalPattern(**p) for p in pattern_data]
+                patterns = []
+                for p in pattern_data:
+                    # Convert entry dictionaries to JournalEntry objects
+                    entries = [
+                        JournalEntry(
+                            date=datetime.fromisoformat(e["date"]),
+                            content=e["content"],
+                            day_of_week=e["day_of_week"],
+                            word_count=e["word_count"]
+                        ) for e in p["entries"]
+                    ]
+                    
+                    # Create PatternTimespan
+                    timespan = PatternTimespan(
+                        start_date=datetime.fromisoformat(p["timespan"]["start_date"]),
+                        end_date=datetime.fromisoformat(p["timespan"]["end_date"]),
+                        duration_days=p["timespan"]["duration_days"],
+                        recurring=p["timespan"]["recurring"]
+                    )
+                    
+                    # Create EmotionalIntensity
+                    intensity = EmotionalIntensity(
+                        baseline=p["intensity"]["baseline"],
+                        peak=p["intensity"]["peak"],
+                        variance=p["intensity"]["variance"],
+                        progression_rate=p["intensity"]["progression_rate"]
+                    )
+                    
+                    # Create EmotionalPattern
+                    pattern = EmotionalPattern(
+                        pattern_id=p["pattern_id"],
+                        description=p["description"],
+                        entries=entries,
+                        timespan=timespan,
+                        confidence_score=p["confidence_score"],
+                        emotion_type=p["emotion_type"],
+                        intensity=intensity
+                    )
+                    patterns.append(pattern)
+                
+                return patterns
+                
         except Exception as e:
             logger.error(f"Error loading patterns for {year}-{month}: {str(e)}")
             return []

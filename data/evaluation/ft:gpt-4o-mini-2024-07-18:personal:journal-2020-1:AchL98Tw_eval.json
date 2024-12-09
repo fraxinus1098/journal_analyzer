@@ -1,0 +1,14 @@
+{
+  "model_id": "ft:gpt-4o-mini-2024-07-18:personal:journal-2020-1:AchL98Tw",
+  "timestamp": "2024-12-09T23:20:58.587686",
+  "data_period": {
+    "year": 2020,
+    "month": 1
+  },
+  "metrics": {
+    "pattern_detection_accuracy": NaN,
+    "pattern_classification_accuracy": 0.0,
+    "intensity_mae": 0.0,
+    "confidence_rmse": 0.0
+  }
+}

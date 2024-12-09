@@ -1,0 +1,226 @@
+[
+    {
+        "pattern_id": "pattern_1",
+        "description": "New Year Optimism Pattern",
+        "emotion_type": "positive",
+        "confidence_score": 0.92,
+        "entries": [
+            {
+                "date": "2020-01-01",
+                "content": "Today was a great start to the new year. Feeling optimistic about what's ahead. Made some solid resolutions and already started working on them.",
+                "day_of_week": "Wednesday",
+                "word_count": 24
+            },
+            {
+                "date": "2020-01-02",
+                "content": "Had a productive day at work. Made significant progress on the project. Team seems energized after the break. Looking forward to our upcoming milestones.",
+                "day_of_week": "Thursday",
+                "word_count": 26
+            }
+        ],
+        "timespan": {
+            "start_date": "2020-01-01",
+            "end_date": "2020-01-02",
+            "duration_days": 2,
+            "recurring": false
+        },
+        "intensity": {
+            "baseline": 0.8,
+            "peak": 0.9,
+            "variance": 0.1,
+            "progression_rate": 0.05
+        }
+    },
+    {
+        "pattern_id": "pattern_2",
+        "description": "Fatigue and Recovery Pattern",
+        "emotion_type": "mixed",
+        "confidence_score": 0.85,
+        "entries": [
+            {
+                "date": "2020-01-03",
+                "content": "Feeling a bit tired today, but managed to complete my tasks. The weather is gloomy which isn't helping my energy levels. Might need extra rest this weekend.",
+                "day_of_week": "Friday",
+                "word_count": 28
+            },
+            {
+                "date": "2020-01-05",
+                "content": "Spent the day recharging. Had a great meditation session and caught up with family. Feeling much more balanced and ready for the week ahead.",
+                "day_of_week": "Sunday",
+                "word_count": 25
+            }
+        ],
+        "timespan": {
+            "start_date": "2020-01-03",
+            "end_date": "2020-01-05",
+            "duration_days": 3,
+            "recurring": false
+        },
+        "intensity": {
+            "baseline": 0.4,
+            "peak": 0.7,
+            "variance": 0.3,
+            "progression_rate": 0.15
+        }
+    },
+    {
+        "pattern_id": "pattern_3",
+        "description": "Work Success Pattern",
+        "emotion_type": "positive",
+        "confidence_score": 0.88,
+        "entries": [
+            {
+                "date": "2020-01-08",
+                "content": "Received unexpected praise for my recent work. Feeling proud and motivated. The new project challenges are exciting rather than daunting now.",
+                "day_of_week": "Wednesday",
+                "word_count": 22
+            },
+            {
+                "date": "2020-01-25",
+                "content": "Had a breakthrough in understanding a complex problem at work. The solution seems so obvious now. Confidence is definitely building.",
+                "day_of_week": "Saturday",
+                "word_count": 21
+            }
+        ],
+        "timespan": {
+            "start_date": "2020-01-08",
+            "end_date": "2020-01-25",
+            "duration_days": 18,
+            "recurring": false
+        },
+        "intensity": {
+            "baseline": 0.7,
+            "peak": 0.9,
+            "variance": 0.2,
+            "progression_rate": 0.1
+        }
+    },
+    {
+        "pattern_id": "pattern_4",
+        "description": "Stress and Coping Pattern",
+        "emotion_type": "negative",
+        "confidence_score": 0.89,
+        "entries": [
+            {
+                "date": "2020-01-12",
+                "content": "Anxiety creeping in about next week's deadlines. Having trouble sleeping. Need to work on better stress management strategies.",
+                "day_of_week": "Sunday",
+                "word_count": 19
+            },
+            {
+                "date": "2020-01-20",
+                "content": "Feeling overwhelmed with work and personal commitments. Everything seems to be happening at once. Need to practice the breathing exercises more.",
+                "day_of_week": "Monday",
+                "word_count": 23
+            }
+        ],
+        "timespan": {
+            "start_date": "2020-01-12",
+            "end_date": "2020-01-20",
+            "duration_days": 9,
+            "recurring": false
+        },
+        "intensity": {
+            "baseline": 0.6,
+            "peak": 0.8,
+            "variance": 0.2,
+            "progression_rate": -0.05
+        }
+    },
+    {
+        "pattern_id": "pattern_5",
+        "description": "Personal Growth Pattern",
+        "emotion_type": "positive",
+        "confidence_score": 0.91,
+        "entries": [
+            {
+                "date": "2020-01-15",
+                "content": "Started a new workout routine. It's challenging but invigorating. Already noticing improvements in my energy levels and mood.",
+                "day_of_week": "Wednesday",
+                "word_count": 20
+            },
+            {
+                "date": "2020-01-30",
+                "content": "Reflecting on January - it's been a month of growth. Despite some stressful moments, I've developed better coping strategies. Proud of the progress.",
+                "day_of_week": "Thursday",
+                "word_count": 27
+            }
+        ],
+        "timespan": {
+            "start_date": "2020-01-15",
+            "end_date": "2020-01-30",
+            "duration_days": 16,
+            "recurring": false
+        },
+        "intensity": {
+            "baseline": 0.6,
+            "peak": 0.85,
+            "variance": 0.25,
+            "progression_rate": 0.15
+        }
+    },
+    {
+        "pattern_id": "pattern_6",
+        "description": "Work Organization and Team Leadership Pattern",
+        "emotion_type": "positive",
+        "confidence_score": 0.87,
+        "entries": [
+            {
+                "date": "2020-01-06",
+                "content": "Back to work after the long weekend. Found a new way to organize my tasks that's really clicking. The team liked my suggestions in the morning standup.",
+                "day_of_week": "Monday",
+                "word_count": 28
+            },
+            {
+                "date": "2020-01-28",
+                "content": "Big breakthrough in team dynamics today. The new communication framework is making a real difference. Everyone seems more engaged and collaborative.",
+                "day_of_week": "Tuesday",
+                "word_count": 22
+            }
+        ],
+        "timespan": {
+            "start_date": "2020-01-06",
+            "end_date": "2020-01-28",
+            "duration_days": 23,
+            "recurring": false
+        },
+        "intensity": {
+            "baseline": 0.7,
+            "peak": 0.85,
+            "variance": 0.15,
+            "progression_rate": 0.1
+        }
+    },
+    {
+        "pattern_id": "pattern_7",
+        "description": "Winter Mood Pattern",
+        "emotion_type": "negative",
+        "confidence_score": 0.86,
+        "entries": [
+            {
+                "date": "2020-01-10",
+                "content": "Tough meeting today where we had to revise project timelines. Feeling frustrated but trying to focus on solutions rather than problems. Need to realign expectations.",
+                "day_of_week": "Friday",
+                "word_count": 26
+            },
+            {
+                "date": "2020-01-22",
+                "content": "Winter blues hitting hard today. The dark mornings are making it tough to get going. Started using my light therapy lamp - hoping it helps.",
+                "day_of_week": "Wednesday",
+                "word_count": 24
+            }
+        ],
+        "timespan": {
+            "start_date": "2020-01-10",
+            "end_date": "2020-01-22",
+            "duration_days": 13,
+            "recurring": false
+        },
+        "intensity": {
+            "baseline": 0.5,
+            "peak": 0.7,
+            "variance": 0.2,
+            "progression_rate": -0.1
+        }
+    }
+]
