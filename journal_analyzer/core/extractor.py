@@ -1,8 +1,23 @@
+# File path: journal_analyzer/core/extractor.py
 """
 Extracts and structures content from journal entries, handling various input formats 
 and ensuring consistent data structure.
 
-File path: journal_analyzer/core/extractor.py
+IMPORTANT! Original purpose: Extract and structure content from journal entries, handle various input formats
+Current status: Most of its functionality has been absorbed into the JournalAnalyzer class
+However, it could still be valuable for:
+
+Phase 2: Pre-processing data for model training
+Future enhancements: Supporting additional journal formats
+Separating concerns: Keeping extraction logic separate from analysi
+
+Recommendation:
+
+For now, we can consider these files optional since their core functionality is covered
+Keep them as stubs for Phase 2 where we might need them for model training
+If we don't end up using them in Phase 2, we can remove them to keep the codebase clean
+
+
 """
 
 from typing import List, Dict, Any, Optional

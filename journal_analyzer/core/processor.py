@@ -1,6 +1,20 @@
 # File path: journal_analyzer/core/processor.py
 """
 Core processing logic for journal entries.
+
+Original purpose: Core processing logic for journal entries
+Current status: Most functionality is now in JournalAnalyzer and PatternDetector
+However, it could be useful for:
+
+Phase 2: Text preprocessing for training data
+Future features: Additional text analysis metrics
+Modular design: Separating text processing from pattern detection
+
+
+Recommendation:
+For now, we can consider these files optional since their core functionality is covered
+Keep them as stubs for Phase 2 where we might need them for model training
+If we don't end up using them in Phase 2, we can remove them to keep the codebase clean
 """
 
 from typing import List, Dict, Any
