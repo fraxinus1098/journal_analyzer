@@ -30,28 +30,3 @@ class JournalEntry:
         """Convert entry to dictionary format."""
         # TODO: Implement conversion logic
         pass
-
-@dataclass
-class EmotionalPattern:
-    """Represents a detected emotional pattern across entries."""
-    
-    pattern_id: str
-    description: str
-    entries: List[JournalEntry]
-    confidence_score: float
-    timespan: Dict[str, datetime]
-    
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert pattern to JSON-serializable dict."""
-        return {
-            'pattern_id': self.pattern_id,
-            'description': self.description,
-            'entries': [e.to_dict() for e in self.entries],
-            'confidence_score': self.confidence_score,
-            'timespan': {k: v.isoformat() for k, v in self.timespan.items()}
-        }
-    
-    def get_visualization_data(self) -> Dict[str, Any]:
-        """Prepare pattern data for visualization."""
-        # TODO: Implement visualization data preparation
-        pass
