@@ -3,3 +3,16 @@ export OPENAI_API_KEY="sk-proj-fmY1HAcEQbusTs70n3ELEWM5HManyZCKXGYIj40xzAFufdPhC
 
 # Or add to your ~/.bashrc or ~/.zshrc for persistence
 echo 'export OPENAI_API_KEY="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"' >> ~/.bashrc
+
+# Running Phase 1
+chmod +x generate_patterns.py
+pip install -r requirements.txt
+echo 'export OPENAI_API_KEY="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"' >> ~/.bashrc
+python generate_patterns.py --year 2020 --month 1
+
+# Running Phase 2
+# Process all of 2020
+python run_fine_tuning.py --year 2020
+
+# Or process a specific month
+python run_fine_tuning.py --year 2020 --month 1
