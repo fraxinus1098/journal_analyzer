@@ -32,3 +32,6 @@ This library implements robust input validation and prompt injection protection.
 - Python 3.8+
 - OpenAI API key
 - Required packages listed in requirements.txt
+
+## Privacy
+It is recommend to save your journal entries .json files under .gitignore for privacy
