@@ -72,7 +72,7 @@ Presentations should include the following:
 Presentations will be graded on the degree to which they are clear and compelling. The presentation grade is independent from the other dimensions of the project grade. 
 
 ## 1. A brief written document describing the purpose and design of your project or app. This must include appropriate citations to both academic work and software used in the project.
-See README.md above and see [masterplan.md] (https://github.com/fraxinus1098/journal_analyzer/blob/main/masterplan.md)
+See README.md above and see [masterplan.md](https://github.com/fraxinus1098/journal_analyzer/blob/main/masterplan.md)
 
 ## 2. A brief video accessible to instructors in which you demonstrate use of the application or project.
 
@@ -84,7 +84,7 @@ See README.md above and see [masterplan.md] (https://github.com/fraxinus1098/jou
 
 ## Works Cited and References
 **How to effectively code using AI**
-1. Followed this workflow for refining the idea and coding [Claude 3.5 Crash Course for Developers: Code 10x Faster in 2024 [Claude 3.5 artifacts]] (https://www.youtube.com/watch?v=fMa2zQIkQwM&t)
+1. Followed this workflow for refining the idea and coding [Claude 3.5 Crash Course for Developers: Code 10x Faster in 2024 Claude 3.5 artifacts](https://www.youtube.com/watch?v=fMa2zQIkQwM&t)
 
 **Generative Agent Simulations of 1,000 People**
 1. Article https://www.technologyreview.com/2024/11/20/1107100/ai-can-now-create-a-replica-of-your-personality/
