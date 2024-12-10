@@ -71,4 +71,6 @@ Presentations should include the following:
 3. A brief in-class presentation.
 Presentations will be graded on the degree to which they are clear and compelling. The presentation grade is independent from the other dimensions of the project grade. 
 
-# Grading Guidelines for LLM Class
+## Resources and other key documentation
+- https://github.com/fraxinus1098/journal_analyzer/blob/main/masterplan.md
+- https://github.com/fraxinus1098/journal_analyzer/blob/main/project-structure.md
