@@ -182,7 +182,7 @@ https://yourgpt.ai/tools/openai-and-other-llm-api-pricing-calculator
 
 **OpenAI Documentation**
 1. [Embeddings](https://platform.openai.com/docs/api-reference/embeddings)
-2. 
+2. [OpenAI Models](https://platform.openai.com/docs/models/gp)
 
 ## Future Features/Optimization
 **Optimization**
