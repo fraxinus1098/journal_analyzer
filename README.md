@@ -208,13 +208,12 @@ https://yourgpt.ai/tools/openai-and-other-llm-api-pricing-calculator
 ## Ultimate Goal
 1. For my **Intro to AI** class, I made a simple AI digital twin using 2 hours of interview data based on research.
 2. For my **LLM** class (this class), I attempted to analyze my 6 years worth of journal entries
-- 115K words in 2024 (and counting)
 - 45K - 2019
 - 43K - 2020
 - 44K - 2021
 - 47K - 2022
 - 81K - 2023
-- 114K - 2024
+- 115K - 2024 (and counting)
 - So ~ 375K+ words in total
 This comes out to about 500K tokens, and the costs are too high at the moment since I need to continue refining and streamlining my processes. I opted to use my journal entries from 2020 which is at 43K words in this intial run. and it worked
 
