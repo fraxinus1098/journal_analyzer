@@ -39,6 +39,70 @@ analyzer.generate_visualizations()
     },
 ```
 
+**Run Analysis to generate patterns and embeddings**
+1. pip install -r requirements.txt
+2. echo 'export OPENAI_API_KEY="YOUR OPENAI KEY"' >> ~/.bashrc
+3. python generate_patterns.py --year YYYY
+4. Under the folder 'data --> embeddings', you should get 12 .json files in the format YYYY_MM.embeddings.json with the format below
+```json
+{
+  "2020-01-01": {
+    "embedding": [
+      -0.027469899505376816,
+      ...
+      -0.07418953627347946
+    ],
+    "metadata": {
+      "date": "2020-01-01",
+      "day_of_week": "Wednesday",
+      "word_count": 24,
+      "month": 1,
+      "year": 2020
+    },
+```
+5. Under the folder 'data --> patterns', you should get 12 .json files in the format YYYY_MM.patterns.json with the format below
+```json
+[
+  {
+    "pattern_id": "mba_journey_and_personal_growth_0",
+    "description": "PATTERN DESCRIPTION",
+    "entries": [
+      {
+        "date": "2020-01-01T00:00:00",
+        "content": "...",
+        "day_of_week": "Wednesday",
+        "word_count": 61
+      },
+      ... rest of the entries
+      {
+        "date": "2020-01-06T00:00:00",
+        "content": "...",
+        "day_of_week": "Monday",
+        "word_count": 243
+      }
+    ],
+    "timespan": {
+      "start_date": "2020-01-03T00:00:00",
+      "end_date": "2020-01-06T00:00:00",
+      "duration_days": 3,
+      "recurring": false
+    },
+    "confidence_score": 0.85,
+    "emotion_type": "anticipation",
+    "secondary_description": "JOURNAL ENTRIES DESCRIPTIONS",
+    "intensity": {
+      "baseline": 1.0,
+      "peak": 1.0,
+      "variance": 0.25587073242280756,
+      "progression_rate": 7.436464146410444e-08
+    }
+  }
+]
+```
+**Generate Report**
+1. python generate_report.py --year YYYY
+2. Your report should now be exported as an interactive HTML file!
+
 ## Security - **NOT YET IMPLIMENTED **
 This library implements robust input validation and prompt injection protection. See the security documentation for details.
 
