@@ -191,12 +191,15 @@ https://yourgpt.ai/tools/openai-and-other-llm-api-pricing-calculator
 3. Use database instead of .json
 4. Better normalize data
 5. Improve data html visualization
-6. Figure out core emotions that need to be shown. Maybe use official research
-7. How does Character.AI do it?
-8. Update documentation
+6. Ensure categories do not duplicate or are not too similiar i.e. pandemic should fall under COVID-19, not be separate categories
+7. Figure out core emotions that need to be shown. Maybe use official research
+8. How does Character.AI do it?
+9. Manually analyze and label my data to fine tune the model?
+10. Update documentation
 
 **Future Features**
-1. Create a Spotify-like wrap, but for journaling instead
+1. Add in more categories and analyze them. i.e. people, places, events, etc
+2. Create a Spotify-like wrap, but for journaling instead
 3. Integrate Spotify API user data to understand if there's a correlation between what people listen and how throughout the years and if that is correlated with journal entries
 4. Analyze journals and publish results from famous people such as Benjamin Franklin, Kurt Cobain, etc. See ideas from [Perplexity here](https://www.perplexity.ai/search/i-m-looking-to-analyze-journal-C6VM8zFzRECccClz5Aau7A)
 5. Integrate Google Photo API --> translate key images to text description and integrate with journal entries to track patterns
