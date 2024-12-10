@@ -4,7 +4,8 @@ HTML report generation and export functionality.
 File path: journal_analyzer/visualization/html_export.py
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Set, Tuple
+from collections import defaultdict, Counter
 from pathlib import Path
 import json
 from datetime import datetime
