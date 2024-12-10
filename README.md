@@ -153,6 +153,7 @@ Presentations will be graded on the degree to which they are clear and compellin
 1. See README.md above, see [masterplan.md](https://github.com/fraxinus1098/journal_analyzer/blob/main/masterplan.md) which is a WIP and needs to be updated, and see resources and more details below.
 
 ## 2. A brief video accessible to instructors in which you demonstrate use of the application or project.
+TBD
 
 ## 3. A brief in-class presentation.
 
@@ -175,6 +176,13 @@ Presentations will be graded on the degree to which they are clear and compellin
 **Reid AI**
 1. [Transcript: The Futurist Summit: The Age of AI: Inflection Points with Reid Hoffman](https://www.washingtonpost.com/washington-post-live/2024/06/13/futurist-summit-age-ai-inflection-points-with-reid-hoffman/)
 2. [The digital twin baby boom](https://www.axios.com/2024/07/09/digital-twins-reid-hoffman-health)
+
+**Cost Calculator**
+https://yourgpt.ai/tools/openai-and-other-llm-api-pricing-calculator
+
+**OpenAI Documentation**
+1. [Embeddings](https://platform.openai.com/docs/api-reference/embeddings)
+2. 
 
 ## Future Features/Optimization
 **Optimization**
