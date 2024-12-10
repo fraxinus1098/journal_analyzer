@@ -17,14 +17,14 @@ Raw Journal Entry → Preprocessing → Embedding Generation → Sentiment Analy
 
 ## Core Features Implementation
 
-### 1. Emotional Pattern Analysis
+### 1. Emotional Pattern Analysis - **CHANGED TO USE GPT-4o-mini**
 - **Batch Processing**
   - Weekly aggregation of entries
   - Comprehensive embedding generation
   - Sentiment score calculation
   - Pattern clustering using embeddings
 
-- **Fine-tuning Pipeline**
+- **Fine-tuning Pipeline** **WILL NOT DO**
   - Dataset: Existing sentiment-labeled entries
   - Split: 80/20 train/validation
   - Validation metrics: accuracy, F1 score
@@ -49,7 +49,7 @@ Raw Journal Entry → Preprocessing → Embedding Generation → Sentiment Analy
   - Baseline deviation tracking
   - Weekly score evolution
 
-#### Audio Output
+#### Audio Output - **FUTURE FEATURE**
 - Emotional journey sonification
 - Peak moment audio cues
 - Pattern-based musical elements
@@ -70,9 +70,9 @@ class EmotionalPatternRAG:
         pass
 ```
 
-## Security Implementation (low priority)
+## Security Implementation **LOW PRIORITY**
 
-### 1. Input Validation
+### 1. Input Validation **NEED TO UPDATE**
 ```python
 class InputValidator:
     def sanitize_input(self, text):
@@ -84,7 +84,7 @@ class InputValidator:
         pass
 ```
 
-### 2. Prompt Injection Protection
+### 2. Prompt Injection Protection **LOW PRIORITY**
 - Input sanitization
 - Prompt template validation
 - Context boundary enforcement
@@ -93,12 +93,12 @@ class InputValidator:
 
 ## Development Phases
 
-### Phase 1: Core Pipeline Enhancement (15 hours)
+### Phase 1: Core Pipeline Enhancement (15 hours) - **CHANGED TO USE GPT-4o-mini** instead
 1. Implement embedding batch processing
 2. Set up fine-tuning pipeline
 3. Develop pattern clustering
 
-### Phase 2: Model Training & Fine-tuning (10 hours)
+### Phase 2: Model Training & Fine-tuning (10 hours) - **SKIPPED!**
 1. Prepare training data
 2. Implement fine-tuning pipeline
 3. Validate model performance
@@ -170,9 +170,9 @@ class APIManager:
 
 4. **Multi-modal Output**
    - Visual: Plotly visualizations
-   - Audio: Emotion-based sonification (Low Priority)
+   - Audio: Emotion-based sonification **(Low Priority)**
 
-5. **Security Measures** (Low Priority)
+5. **Security Measures** **(Low Priority)**
    - Input sanitization
    - Prompt validation
    - Rate limiting
