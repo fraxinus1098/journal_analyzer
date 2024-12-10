@@ -223,3 +223,6 @@ This comes out to about 500K tokens, and the costs are too high at the moment si
 3. For my own personal amusement, after making these improvements and other features, I hope to find a way to incorporate all 6 years of journal entries to make a much better AI digital twin of myself. Of course, there are a lot of privacy data concerns that I still need to figure out. I can't have my AI Digital Twin spitting out private details of my life, so I will have to build in a lot of guardrails.
 4. Afterwards, I hope to find a way to make a VR Avatar of my optimized digital twin. I have a Meta Quest 3 and I'm ready to explore. Who needs therapy when you can talk to your digital twin?
 
+## Special Thanks
+1. Professor [Kyle Jensen](https://som.yale.edu/faculty-research/faculty-directory/kyle-jensen) and Professor [K. Sudhir](https://som.yale.edu/faculty-research/faculty-directory/k-sudhir) for the amazing [LLM](https://som.yale.edu/story/2024/new-course-prepares-students-workplace-transformed-ai) class at Yale SOM
+2. [CLaude 3.5 Sonnet](https://www.anthropic.com/claude/sonnet) for making all of the coding possible
