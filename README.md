@@ -207,9 +207,9 @@ Presentations will be graded on the degree to which they are clear and compellin
 - 47K - 2022
 - 81K - 2023
 - 114K - 2024
-- So probably 375K+ words in total
-
+- So ~ 375K+ words in total
 This comes out to about 500K tokens, and the costs are too high at the moment since I need to continue refining and streamlining my processes. I opted to use my journal entries from 2020 which is at 43K words in this intial run. and it worked
+
 3. For my own personal amusement, after making these improvements and other features, I hope to find a way to incorporate all 6 years of journal entries to make a much better AI digital twin of myself. Of course, there are a lot of privacy data concerns that I still need to figure out. I can't have my AI Digital Twin spitting out private details of my life, so I will have to build in a lot of guardrails.
 4. Afterwards, I hope to find a way to make a VR Avatar of my optimized digital twin. I have a Meta Quest 3 and I'm ready to explore. Who needs therapy when you can talk to your digital twin?
 
