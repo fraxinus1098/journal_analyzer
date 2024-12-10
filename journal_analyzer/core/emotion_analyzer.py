@@ -152,28 +152,29 @@ class EmotionAnalyzer:
             for i, entry in enumerate(entries)
         ])
         
-        return f"""Analyze these related journal entries as a pattern and determine:
-1. Primary emotion (must be one of: {', '.join(self.PRIMARY_EMOTIONS)})
-2. Secondary emotional description (provide nuanced detail)
-3. Confidence in analysis (0.0 to 1.0)
+        return f"""Given these journal entries, analyze them as a pattern and provide the following in STRICT JSON format:
+    1. primary_emotion: MUST be one of [{", ".join(self.PRIMARY_EMOTIONS)}]
+    2. secondary_description: a nuanced emotional description
+    3. confidence: a number between 0.0 and 1.0
 
-Journal entries:
-{entries_text}
+    Journal entries:
+    {entries_text}
 
-Provide your analysis in JSON format:
-{{
-    "primary_emotion": "",
-    "secondary_description": "",
-    "confidence": 0.0
-}}"""
+    Your response MUST be a valid JSON object in this exact format:
+    {{
+        "primary_emotion": "<emotion>",
+        "secondary_description": "<description>",
+        "confidence": <number>
+    }}"""
 
     def _get_system_prompt(self) -> str:
         """Get system prompt for emotion analysis."""
-        return """You are an expert in emotional pattern analysis specializing in personal journals.
-Your task is to analyze groups of related journal entries to identify emotional patterns.
-Always respond in valid JSON format with the requested fields.
-Primary emotions must be chosen from the provided list.
-Confidence scores should reflect certainty in the analysis."""
+        return """You are an expert in emotional pattern analysis specializing in personal journals. 
+Your task is to identify emotional patterns and MUST respond with a valid JSON object containing exactly these fields:
+- primary_emotion (must be one of the provided emotions)
+- secondary_description (a detailed description)
+- confidence (a number between 0.0 and 1.0)
+Your response must be ONLY the JSON object with no other text."""
 
     def _find_closest_emotion(self, emotion: str) -> str:
         """Find closest matching primary emotion."""

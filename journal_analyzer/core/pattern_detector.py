@@ -18,6 +18,7 @@ import openai
 
 from ..models.patterns import Pattern, EmotionalPattern, PatternTimespan, EmotionalIntensity
 from ..models.entry import JournalEntry
+from .emotion_analyzer import EmotionAnalyzer
 
 logger = logging.getLogger(__name__)
 
@@ -46,126 +47,139 @@ class PatternDetector:
         self.scaler = StandardScaler()
         self.emotion_analyzer = EmotionAnalyzer(client)
         
-        async def detect_patterns(
-            self,
-            entries: List[Dict[str, Any]],
-            embeddings: Dict[str, Any]
-        ) -> List[EmotionalPattern]:
-            """
-            Detect emotional patterns in journal entries.
+    async def detect_patterns(
+        self,
+        entries: List[Dict[str, Any]],
+        embeddings: Dict[str, Any]
+    ) -> List[EmotionalPattern]:
+        """
+        Detect emotional patterns in journal entries.
+        
+        Args:
+            entries: List of journal entries
+            embeddings: Dictionary of embeddings and metadata
             
-            Args:
-                entries: List of journal entries
-                embeddings: Dictionary of embeddings and metadata
+        Returns:
+            List of detected emotional patterns
+        """
+        # Convert string dates to datetime objects
+        entries = self._ensure_datetime_dates(entries)
+        
+        # Prepare data for clustering
+        dates, embedding_matrix, temporal_features = self._prepare_clustering_data(
+            entries, embeddings
+        )
+        
+        # Perform clustering
+        clusters = self._perform_clustering(embedding_matrix, temporal_features)
+        
+        # Extract patterns from clusters
+        patterns = await self._extract_patterns(dates, entries, embeddings, clusters)
+        
+        # Normalize intensities across patterns
+        patterns = self._normalize_pattern_intensities(patterns)
+        
+        return patterns
+    
+    async def _extract_patterns(
+        self,
+        dates: List[datetime],
+        entries: List[Dict[str, Any]],
+        embeddings: Dict[str, Any],
+        clusters: np.ndarray
+    ) -> List[EmotionalPattern]:
+        """Extract emotional patterns from clustering results."""
+        patterns = []
+        
+        for cluster_id in set(clusters):
+            if cluster_id == -1:  # Skip noise points
+                continue
                 
-            Returns:
-                List of detected emotional patterns
-            """
-            # Convert string dates to datetime objects
-            entries = self._ensure_datetime_dates(entries)
+            # Get entries in this cluster
+            cluster_indices = np.where(clusters == cluster_id)[0]
+            cluster_dates = [dates[i] for i in cluster_indices]
+            cluster_entries = [entries[i] for i in cluster_indices]
             
-            # Prepare data for clustering
-            dates, embedding_matrix, temporal_features = self._prepare_clustering_data(
-                entries, embeddings
+            # Calculate pattern timespan
+            timespan = self._calculate_timespan(cluster_dates)
+            
+            # Analyze emotions using GPT-4o-mini
+            emotion_type, description, confidence = await self.emotion_analyzer.analyze_pattern(
+                cluster_entries,
+                f"pattern_{cluster_id}"
             )
             
-            # Perform clustering
-            clusters = self._perform_clustering(embedding_matrix, temporal_features)
+            # Calculate intensity metrics
+            intensity = await self.emotion_analyzer.calculate_intensity(
+                cluster_entries,
+                embeddings
+            )
             
-            # Extract patterns from clusters
-            patterns = await self._extract_patterns(dates, entries, embeddings, clusters)
+            # Create pattern object
+            pattern = EmotionalPattern(
+                pattern_id=f"pattern_{cluster_id}",
+                description=description,
+                entries=[
+                    JournalEntry(
+                        date=entry["date"],
+                        content=entry["content"],
+                        day_of_week=entry["day_of_week"],
+                        word_count=entry["word_count"],
+                        month=entry["date"].month,
+                        year=entry["date"].year
+                    ) for entry in cluster_entries
+                ],
+                timespan=timespan,
+                confidence_score=confidence,
+                emotion_type=emotion_type,
+                intensity=intensity
+            )
             
-            # Normalize intensities across patterns
-            patterns = self._normalize_pattern_intensities(patterns)
-            
-            return patterns
+            patterns.append(pattern)
         
-        async def _extract_patterns(
-            self,
-            dates: List[datetime],
-            entries: List[Dict[str, Any]],
-            embeddings: Dict[str, Any],
-            clusters: np.ndarray
-        ) -> List[EmotionalPattern]:
-            """Extract emotional patterns from clustering results."""
-            patterns = []
-            
-            for cluster_id in set(clusters):
-                if cluster_id == -1:  # Skip noise points
-                    continue
-                    
-                # Get entries in this cluster
-                cluster_indices = np.where(clusters == cluster_id)[0]
-                cluster_dates = [dates[i] for i in cluster_indices]
-                cluster_entries = [entries[i] for i in cluster_indices]
-                
-                # Calculate pattern timespan
-                timespan = self._calculate_timespan(cluster_dates)
-                
-                # Analyze emotions using GPT-4o-mini
-                emotion_type, description, confidence = await self.emotion_analyzer.analyze_pattern(
-                    cluster_entries,
-                    f"pattern_{cluster_id}"
-                )
-                
-                # Calculate intensity metrics
-                intensity = await self.emotion_analyzer.calculate_intensity(
-                    cluster_entries,
-                    embeddings
-                )
-                
-                # Create pattern object
-                pattern = EmotionalPattern(
-                    pattern_id=f"pattern_{cluster_id}",
-                    description=description,
-                    entries=[
-                        JournalEntry(
-                            date=entry["date"],
-                            content=entry["content"],
-                            day_of_week=entry["day_of_week"],
-                            word_count=entry["word_count"],
-                            month=entry["date"].month,
-                            year=entry["date"].year
-                        ) for entry in cluster_entries
-                    ],
-                    timespan=timespan,
-                    confidence_score=confidence,
-                    emotion_type=emotion_type,
-                    intensity=intensity
-                )
-                
-                patterns.append(pattern)
-            
-            return patterns
+        return patterns
         
-        def _normalize_pattern_intensities(
-            self,
-            patterns: List[EmotionalPattern]
-        ) -> List[EmotionalPattern]:
-            """Normalize intensity values across all patterns."""
-            if not patterns:
-                return patterns
-                
-            # Collect all intensity values
-            baselines = [p.intensity.baseline for p in patterns]
-            peaks = [p.intensity.peak for p in patterns]
-            variances = [p.intensity.variance for p in patterns]
-            
-            # Calculate normalization factors
-            max_baseline = max(baselines) if baselines else 1.0
-            max_peak = max(peaks) if peaks else 1.0
-            max_variance = max(variances) if variances else 1.0
-            
-            # Normalize each pattern's intensity
-            for pattern in patterns:
-                pattern.intensity = EmotionalIntensity(
-                    baseline=pattern.intensity.baseline / max_baseline if max_baseline > 0 else 0.0,
-                    peak=pattern.intensity.peak / max_peak if max_peak > 0 else 0.0,
-                    variance=pattern.intensity.variance / max_variance if max_variance > 0 else 0.0,
-                    progression_rate=pattern.intensity.progression_rate  # Already normalized
-                )
-                
+    def _normalize_pattern_intensities(
+        self,
+        patterns: List[EmotionalPattern]
+    ) -> List[EmotionalPattern]:
+        """Normalize intensity values across all patterns."""
+        if not patterns:
             return patterns
+            
+        # Collect all intensity values
+        baselines = [p.intensity.baseline for p in patterns]
+        peaks = [p.intensity.peak for p in patterns]
+        variances = [p.intensity.variance for p in patterns]
+        
+        # Calculate normalization factors
+        max_baseline = max(baselines) if baselines else 1.0
+        max_peak = max(peaks) if peaks else 1.0
+        max_variance = max(variances) if variances else 1.0
+        
+        # Normalize each pattern's intensity
+        normalized_patterns = []
+        for pattern in patterns:
+            normalized_intensity = EmotionalIntensity(
+                baseline=pattern.intensity.baseline / max_baseline if max_baseline > 0 else 0.0,
+                peak=pattern.intensity.peak / max_peak if max_peak > 0 else 0.0,
+                variance=pattern.intensity.variance / max_variance if max_variance > 0 else 0.0,
+                progression_rate=pattern.intensity.progression_rate  # Already normalized between -1 and 1
+            )
+            
+            # Create new pattern with normalized intensity
+            normalized_pattern = EmotionalPattern(
+                pattern_id=pattern.pattern_id,
+                description=pattern.description,
+                entries=pattern.entries,
+                timespan=pattern.timespan,
+                confidence_score=pattern.confidence_score,
+                emotion_type=pattern.emotion_type,
+                intensity=normalized_intensity
+            )
+            normalized_patterns.append(normalized_pattern)
+        
+        return normalized_patterns
 
     def _ensure_datetime_dates(self, entries: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Ensure all dates are datetime objects."""
