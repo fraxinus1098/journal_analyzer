@@ -25,7 +25,21 @@ analyzer.process_entries("path/to/journals")
 analyzer.generate_visualizations()
 ```
 
-## Security
+## HOW TO Guide
+**Import Data to .JSON format**
+1. Upload 12 months of data to folder 'data --> raw' in the format YYYY_MM.json. Make it match this template below. 1 file for each month
+```json
+{
+        "date": "2020-01-01",
+        "day_of_week": "Wednesday",
+        "content": "JOURNAL ENTRY",
+        "word_count": 24,
+        "month": 1,
+        "year": 2020
+    },
+```
+
+## Security - **NOT YET IMPLIMENTED **
 This library implements robust input validation and prompt injection protection. See the security documentation for details.
 
 ## Requirements
@@ -106,13 +120,15 @@ Presentations will be graded on the degree to which they are clear and compellin
 4. Better normalize data
 5. Improve data html visualization
 6. Figure out core emotions that need to be shown. Maybe use official research
-7. Update documentation
+7. How does Character.AI do it?
+8. Update documentation
 
 **Future Features**
 1. Create a Spotify-like wrap, but for journaling instead
-2. Integrate Spotify API user data to understand if there's a correlation between what people listen and how throughout the years and if that is correlated with journal entries
-3. Integrate Google Photo API --> translate key images to text description and integrate with journal entries to track patterns
-4. Publish as an official website? Profit!?!?
+3. Integrate Spotify API user data to understand if there's a correlation between what people listen and how throughout the years and if that is correlated with journal entries
+4. Analyze journals and publish results from famous people such as Benjamin Franklin, Kurt Cobain, etc. See ideas from [Perplexity here](https://www.perplexity.ai/search/i-m-looking-to-analyze-journal-C6VM8zFzRECccClz5Aau7A)
+5. Integrate Google Photo API --> translate key images to text description and integrate with journal entries to track patterns
+6. Publish as an official website? Profit!?!?
 
 **User Research and Product Discovert**
 1. Publish V 2.0 on https://www.reddit.com/r/Journaling/ and get user feedback. Refine and iterate
