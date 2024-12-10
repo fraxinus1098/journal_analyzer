@@ -153,7 +153,7 @@ Presentations will be graded on the degree to which they are clear and compellin
 1. See README.md above, see [masterplan.md](https://github.com/fraxinus1098/journal_analyzer/blob/main/masterplan.md) which is a WIP and needs to be updated, and see resources and more details below.
 
 ## 2. A brief video accessible to instructors in which you demonstrate use of the application or project.
-TBD
+https://github.com/user-attachments/assets/7413af54-c647-4917-9c7e-591ff8fbca95
 
 ## 3. A brief in-class presentation.
 
