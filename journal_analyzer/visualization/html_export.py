@@ -248,6 +248,63 @@ class HTMLExporter:
         """Initialize the HTML exporter."""
         self.env = Environment(loader=FileSystemLoader("."))
         
+    def __init__(self):
+        """Initialize the HTML exporter."""
+        self.env = Environment(loader=FileSystemLoader("."))
+        
+    def export(self, html_content: str, output_path: str) -> None:
+        """
+        Export HTML content to a file.
+        
+        Args:
+            html_content: Generated HTML content
+            output_path: Path to save the HTML file
+        """
+        try:
+            # Create output directory if it doesn't exist
+            output_file = Path(output_path)
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Write HTML content to file
+            with open(output_file, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+                
+            logger.info(f"Successfully exported HTML report to {output_file}")
+            
+        except Exception as e:
+            logger.error(f"Error exporting HTML report to {output_path}: {str(e)}")
+            raise
+    
+    def _figure_to_html(self, fig: go.Figure) -> str:
+        """
+        Convert a Plotly figure to HTML string.
+        
+        Args:
+            fig: Plotly figure object
+            
+        Returns:
+            HTML string representation of the figure
+        """
+        if fig is None:
+            return ""
+            
+        try:
+            # Convert figure to HTML with specific configuration
+            html = fig.to_html(
+                full_html=False,
+                include_plotlyjs=False,
+                include_mathjax=False,
+                config={
+                    'displayModeBar': True,
+                    'scrollZoom': True,
+                    'responsive': True
+                }
+            )
+            return html
+        except Exception as e:
+            logger.error(f"Error converting figure to HTML: {str(e)}")
+            return f"<div class='error'>Error generating visualization: {str(e)}</div>"
+        
     def generate_year_report(
         self,
         entries: List[JournalEntry],
@@ -387,9 +444,14 @@ class HTMLExporter:
         patterns: List[EmotionalPattern]
     ) -> List[Dict[str, Any]]:
         """Analyze topics and their emotional characteristics."""
+        if not patterns:
+            return []
+        
         # Group patterns by topic
         topic_patterns = defaultdict(list)
         for pattern in patterns:
+            if not pattern or not pattern.pattern_id:
+                continue
             topic = ' '.join(pattern.pattern_id.split('_')[0].split('-')).title()
             topic_patterns[topic].append(pattern)
         
@@ -602,13 +664,20 @@ class HTMLExporter:
         emotions = Counter(p.emotion_type for p in patterns)
         primary_emotions = [e for e, _ in emotions.most_common(2)]
         
-        # Calculate average duration and intensity
+        # Calculate averages
         avg_duration = np.mean([p.timespan.duration_days for p in patterns])
         avg_intensity = np.mean([p.intensity.peak for p in patterns])
         
+        # Handle different numbers of emotions
+        if not primary_emotions:
+            return "No clear emotional patterns detected."
+        elif len(primary_emotions) == 1:
+            emotion_text = f"Primarily associated with {primary_emotions[0]}"
+        else:
+            emotion_text = f"Primarily associated with {primary_emotions[0]} and {primary_emotions[1]}"
+        
         return (
-            f"Primarily associated with {primary_emotions[0]} "
-            f"and {primary_emotions[1]} emotions. "
+            f"{emotion_text} emotions. "
             f"Patterns typically last {avg_duration:.1f} days with "
             f"moderate to {'high' if avg_intensity > 0.7 else 'medium'} intensity."
         )

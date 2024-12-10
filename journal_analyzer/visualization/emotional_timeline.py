@@ -39,7 +39,8 @@ class EmotionalTimeline:
             'anticipation': '#e67e22', # Orange
             'trust': '#1abc9c',       # Turquoise
             'disgust': '#95a5a6',     # Gray
-            'mixed': '#34495e'        # Dark Gray
+            'mixed': '#34495e',       # Dark Gray
+            'neutral': '#bdc3c7'      # Light Gray
         }
         
         # Convert entries to DataFrame for easier manipulation
@@ -277,8 +278,8 @@ class EmotionalTimeline:
         if not self.fig:
             self.create_timeline()
             
-        # Group by month
-        monthly = self.df.set_index('date').resample('M').agg({
+        # Group by month using 'ME' instead of 'M'
+        monthly = self.df.set_index('date').resample('ME').agg({
             'intensity': 'mean',
             'pattern_count': 'sum',
             'word_count': 'sum',
