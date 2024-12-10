@@ -14,6 +14,7 @@ from dataclasses import asdict
 import logging
 from pathlib import Path
 import json
+import openai
 
 from ..models.patterns import Pattern, EmotionalPattern, PatternTimespan, EmotionalIntensity
 from ..models.entry import JournalEntry
@@ -25,7 +26,7 @@ class PatternDetector:
     
     def __init__(
         self,
-        client: OpenAI,
+        client: openai,
         min_cluster_size: int = 2,
         min_samples: int = 1,
         temporal_weight: float = 0.1
