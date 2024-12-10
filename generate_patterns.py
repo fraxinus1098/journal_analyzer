@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-Script to generate emotional pattern files from raw journal entries.
+Script to generate emotional pattern files from raw journal entries using GPT-4o-mini.
 Usage: python generate_patterns.py --year 2020 [--month 1] [--data-dir ./data]
 
 This script:
 1. Loads raw journal entries
-2. Generates embeddings
-3. Detects emotional patterns
-4. Saves patterns to YYYY_MM.patterns.json files
+2. Generates embeddings using text-embedding-3-small
+3. Detects emotional patterns using HDBSCAN
+4. Analyzes emotions using GPT-4o-mini
+5. Saves patterns to YYYY_MM.patterns.json files
 """
 
 import argparse
@@ -18,6 +19,7 @@ import sys
 from pathlib import Path
 from typing import List, Dict, Any
 import json
+from datetime import datetime
 
 from openai import OpenAI
 import numpy as np
@@ -25,7 +27,7 @@ from tqdm import tqdm
 
 from journal_analyzer.core.pattern_detector import PatternDetector
 from journal_analyzer.core.embeddings import EmbeddingGenerator
-from journal_analyzer.config import Config
+from journal_analyzer.core.emotion_analyzer import EmotionAnalyzer
 from journal_analyzer.models.entry import JournalEntry
 from journal_analyzer.models.patterns import EmotionalPattern
 from journal_analyzer.utils.file_handler import FileHandler
@@ -43,52 +45,84 @@ class PatternGenerator:
     def __init__(
         self,
         api_key: str,
-        data_dir: Path,
-        config: Config
+        data_dir: Path
     ):
+        """
+        Initialize the pattern generator.
+        
+        Args:
+            api_key: OpenAI API key
+            data_dir: Base directory for data storage
+        """
         self.data_dir = Path(data_dir)
+        self.client = OpenAI(api_key=api_key)
+        
+        # Initialize components
         self.embedding_generator = EmbeddingGenerator(
             api_key=api_key,
-            dimension=config.get("embedding_dimensions", 256)
+            dimension=256,  # Using recommended dimension for efficiency
+            batch_size=50
         )
+        
         self.pattern_detector = PatternDetector(
-            min_cluster_size=config.get("min_cluster_size", 5),
-            min_samples=config.get("min_samples", 3),
-            temporal_weight=config.get("temporal_weight", 0.3)
+            client=self.client,
+            min_cluster_size=2,
+            min_samples=2,
+            temporal_weight=0.15
         )
+        
         self.file_handler = FileHandler(str(data_dir))
         
     async def generate_patterns(self, year: int, month: int) -> None:
         """Generate patterns for a specific month."""
         try:
+            start_time = datetime.now()
+            logger.info(f"Starting pattern generation for {year}-{month}")
+            
             # Load raw entries
             entries = self._load_entries(year, month)
-            logger.info(f"Loaded {len(entries)} entries for {year}-{month}")
-
             if not entries:
                 logger.warning(f"No entries found for {year}-{month}")
                 return
                 
-            # Generate embeddings
-            embeddings = await self.embedding_generator.generate_embeddings(entries)
-            logger.info(f"Generated {len(embeddings)} embeddings")
+            logger.info(f"Processing {len(entries)} entries")
             
-            # Save embeddings
-            self.embedding_generator.save_embeddings(
-                embeddings,
-                self.data_dir / "embeddings",
-                year,
-                month
-            )
+            # Create necessary directories
+            self.data_dir.joinpath("embeddings").mkdir(parents=True, exist_ok=True)
+            self.data_dir.joinpath("patterns").mkdir(parents=True, exist_ok=True)
+            
+            # Check if embeddings already exist
+            embedding_file = self.data_dir / "embeddings" / f"{year}_{month:02d}.embeddings.json"
+            if embedding_file.exists():
+                logger.info("Loading existing embeddings")
+                with open(embedding_file) as f:
+                    embeddings = json.load(f)
+            else:
+                # Generate embeddings
+                logger.info("Generating new embeddings")
+                embeddings = await self.embedding_generator.generate_embeddings(entries)
+                
+                # Save embeddings
+                self.embedding_generator.save_embeddings(
+                    embeddings,
+                    self.data_dir / "embeddings",
+                    year,
+                    month
+                )
             
             # Detect patterns
-            patterns = self.pattern_detector.detect_patterns(entries, embeddings)
-            logger.info(f"Detected {len(patterns)} patterns with min_cluster_size={self.pattern_detector.min_cluster_size}") 
+            logger.info("Detecting and analyzing patterns")
+            patterns = await self.pattern_detector.detect_patterns(entries, embeddings)
             
             # Save patterns
             await self._save_patterns(patterns, year, month)
             
-            logger.info(f"Successfully generated patterns for {year}-{month}")
+            end_time = datetime.now()
+            duration = (end_time - start_time).total_seconds()
+            logger.info(
+                f"Successfully generated {len(patterns)} patterns for {year}-{month} "
+                f"in {duration:.1f} seconds"
+            )
             
         except Exception as e:
             logger.error(f"Error generating patterns for {year}-{month}: {str(e)}")
@@ -121,8 +155,9 @@ class PatternGenerator:
         
         try:
             # Convert patterns to serializable format
-            pattern_data = [
-                {
+            pattern_data = []
+            for p in patterns:
+                pattern_dict = {
                     "pattern_id": p.pattern_id,
                     "description": p.description,
                     "entries": [
@@ -140,8 +175,9 @@ class PatternGenerator:
                         "duration_days": p.timespan.duration_days,
                         "recurring": p.timespan.recurring
                     },
-                    "confidence_score": p.confidence_score,
+                    "confidence_score": float(p.confidence_score),
                     "emotion_type": p.emotion_type,
+                    "secondary_description": p.description,  # Added for emotional detail
                     "intensity": {
                         "baseline": float(p.intensity.baseline),
                         "peak": float(p.intensity.peak),
@@ -149,8 +185,7 @@ class PatternGenerator:
                         "progression_rate": float(p.intensity.progression_rate)
                     }
                 }
-                for p in patterns
-            ]
+                pattern_data.append(pattern_dict)
             
             with open(output_file, 'w') as f:
                 json.dump(pattern_data, f, indent=2)
@@ -200,29 +235,22 @@ async def main():
         logger.error("OPENAI_API_KEY environment variable not set")
         sys.exit(1)
     
-    # Create configuration
-    config = Config({
-        "embedding_dimensions": 256,
-        "min_cluster_size": 2,
-        "min_samples": 2,
-        "temporal_weight": 0.15
-    })
-    
-    # Initialize generator
-    generator = PatternGenerator(
-        api_key=api_key,
-        data_dir=Path(args.data_dir),
-        config=config
-    )
-    
     try:
+        # Initialize generator
+        generator = PatternGenerator(
+            api_key=api_key,
+            data_dir=Path(args.data_dir)
+        )
+        
         if args.month:
             # Process specific month
             await generator.generate_patterns(args.year, args.month)
         else:
             # Process entire year
             for month in range(1, 13):
+                logger.info(f"Processing month {month}")
                 await generator.generate_patterns(args.year, month)
+                await asyncio.sleep(1)  # Small delay between months
                 
     except Exception as e:
         logger.error(f"Error in pattern generation: {str(e)}")
