@@ -13,6 +13,7 @@ from jinja2 import Environment, FileSystemLoader
 import plotly.graph_objects as go
 import plotly.utils
 import pandas as pd
+import numpy as np
 
 from .emotional_timeline import EmotionalTimeline
 from .pattern_clusters import PatternVisualizer

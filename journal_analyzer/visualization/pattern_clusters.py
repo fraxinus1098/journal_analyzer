@@ -276,10 +276,9 @@ class PatternVisualizer:
                             ],
                             mode='lines',
                             line=dict(
-                                color=self.color_scale['neutral'],
                                 width=1,
                                 dash='dot',
-                                opacity=overlap
+                                color='rgba(64, 124, 213, 0.5)'  # Custom blue with 50% transparency
                             ),
                             showlegend=False,
                             hovertemplate=(

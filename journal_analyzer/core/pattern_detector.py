@@ -25,9 +25,9 @@ class PatternDetector:
     
     def __init__(
         self,
-        min_cluster_size: int = 5,
-        min_samples: int = 3,
-        temporal_weight: float = 0.3
+        min_cluster_size: int = 2,
+        min_samples: int = 1,
+        temporal_weight: float = 0.1
     ):
         """
         Initialize pattern detector.
@@ -143,8 +143,8 @@ class PatternDetector:
             min_cluster_size=self.min_cluster_size,
             min_samples=self.min_samples,
             metric='euclidean',
-            cluster_selection_epsilon=0.3,
-            alpha=1.0,
+            cluster_selection_epsilon=0.6,
+            alpha=0.3,
             cluster_selection_method='eom'
         )
         
@@ -277,7 +277,7 @@ class PatternDetector:
         size_score = min(cluster_size / self.min_cluster_size, 1.0)
         density_score = cluster_size / total_points
         
-        return float(size_score * 0.7 + density_score * 0.3)
+        return float(size_score * 0.5 + density_score * 0.5)
     
     def _detect_emotion_type(self, entries: List[Dict[str, Any]]) -> str:
         """Detect primary emotion type for pattern."""
