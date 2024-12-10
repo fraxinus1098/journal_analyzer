@@ -103,7 +103,7 @@ analyzer.generate_visualizations()
 1. python generate_report.py --year YYYY
 2. Your report should now be exported as an interactive HTML file!
 
-## Security - **NOT YET IMPLIMENTED **
+## Security - **NOT YET IMPLEMENTED **
 This library implements robust input validation and prompt injection protection. See the security documentation for details.
 
 ## Requirements
