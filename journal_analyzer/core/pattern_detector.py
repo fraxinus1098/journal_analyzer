@@ -15,13 +15,30 @@ from pathlib import Path
 import json
 
 from ..models.patterns import Pattern, EmotionalPattern, PatternTimespan, EmotionalIntensity
-from ..models.entry import JournalEntry
+from datetime import datetime
+from ..models.entry import JournalEntry, EmotionalPattern
 
 logger = logging.getLogger(__name__)
 
 class PatternDetector:
     """Detects emotional patterns in journal entries using HDBSCAN clustering."""
-    
+    def detect_patterns(
+        self,
+        entries: List[Dict[str, Any]],
+        embeddings: Dict[str, Any]
+    ) -> List[EmotionalPattern]:
+        """
+        Detect emotional patterns in journal entries.
+        
+        Args:
+            entries: List of journal entries
+            embeddings: Dictionary of embeddings and metadata
+        """
+        # Convert string dates to datetime objects if needed
+        for entry in entries:
+            if isinstance(entry['date'], str):
+                entry['date'] = datetime.fromisoformat(entry['date'])
+
     def __init__(
         self,
         min_cluster_size: int = 5,

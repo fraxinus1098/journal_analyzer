@@ -39,7 +39,17 @@ class EmotionalPattern:
     description: str
     entries: List[JournalEntry]
     confidence_score: float
-    temporal_span: Dict[str, datetime]
+    timespan: Dict[str, datetime]
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert pattern to JSON-serializable dict."""
+        return {
+            'pattern_id': self.pattern_id,
+            'description': self.description,
+            'entries': [e.to_dict() for e in self.entries],
+            'confidence_score': self.confidence_score,
+            'timespan': {k: v.isoformat() for k, v in self.timespan.items()}
+        }
     
     def get_visualization_data(self) -> Dict[str, Any]:
         """Prepare pattern data for visualization."""
