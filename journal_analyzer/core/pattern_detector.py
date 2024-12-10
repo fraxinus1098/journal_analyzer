@@ -103,8 +103,8 @@ class PatternDetector:
             # Calculate pattern timespan
             timespan = self._calculate_timespan(cluster_dates)
             
-            # Analyze emotions using GPT-4o-mini
-            emotion_type, description, confidence = await self.emotion_analyzer.analyze_pattern(
+            # Analyze emotions and topic using GPT-4o-mini
+            emotion_type, topic, confidence, detailed_analysis = await self.emotion_analyzer.analyze_pattern(
                 cluster_entries,
                 f"pattern_{cluster_id}"
             )
@@ -115,10 +115,12 @@ class PatternDetector:
                 embeddings
             )
             
-            # Create pattern object
+            # Create pattern object with topic-based ID
+            pattern_id = f"{topic.lower().replace(' ', '_')}_{cluster_id}"
+            
             pattern = EmotionalPattern(
-                pattern_id=f"pattern_{cluster_id}",
-                description=description,
+                pattern_id=pattern_id,
+                description=detailed_analysis,
                 entries=[
                     JournalEntry(
                         date=entry["date"],

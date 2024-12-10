@@ -18,9 +18,8 @@ from ..models.patterns import EmotionalPattern, EmotionalIntensity
 logger = logging.getLogger(__name__)
 
 class EmotionAnalyzer:
-    """Analyzes emotions in journal entries using GPT-4o-mini."""
+    """Analyzes emotions and topics in journal entries using GPT-4o-mini."""
     
-    # Primary emotions that model should choose from
     PRIMARY_EMOTIONS = [
         "joy", "sadness", "anger", "fear", 
         "surprise", "anticipation", "trust", "disgust"
@@ -34,16 +33,16 @@ class EmotionAnalyzer:
         self,
         entries: List[Dict[str, Any]],
         pattern_id: str
-    ) -> Tuple[str, str, float]:
+    ) -> Tuple[str, str, float, str]:
         """
-        Analyze emotions in a group of related entries.
+        Analyze emotions and topic in a group of related entries.
         
         Args:
             entries: List of journal entries in pattern
             pattern_id: Pattern identifier
             
         Returns:
-            Tuple of (primary_emotion, secondary_description, confidence)
+            Tuple of (primary_emotion, topic_description, confidence, detailed_analysis)
         """
         # Construct analysis prompt
         prompt = self._construct_prompt(entries)
@@ -57,7 +56,7 @@ class EmotionAnalyzer:
                     {"role": "system", "content": self._get_system_prompt()},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=0.3  # Lower temperature for more consistent responses
+                temperature=0.3
             )
             
             # Parse response
@@ -75,13 +74,14 @@ class EmotionAnalyzer:
             
             return (
                 primary_emotion,
-                analysis["secondary_description"],
-                float(analysis["confidence"])
+                analysis["topic"],
+                float(analysis["confidence"]),
+                analysis["detailed_analysis"]
             )
             
         except Exception as e:
-            logger.error(f"Error analyzing emotions for pattern {pattern_id}: {str(e)}")
-            return ("mixed", "Analysis failed", 0.0)
+            logger.error(f"Error analyzing pattern {pattern_id}: {str(e)}")
+            return ("mixed", "Unknown topic", 0.0, "Analysis failed")
     
     async def calculate_intensity(
         self,
@@ -152,29 +152,32 @@ class EmotionAnalyzer:
             for i, entry in enumerate(entries)
         ])
         
-        return f"""Given these journal entries, analyze them as a pattern and provide the following in STRICT JSON format:
-    1. primary_emotion: MUST be one of [{", ".join(self.PRIMARY_EMOTIONS)}]
-    2. secondary_description: a nuanced emotional description
-    3. confidence: a number between 0.0 and 1.0
+        return f"""Analyze these related journal entries and provide:
+1. The primary emotion expressed (MUST be one of: {", ".join(self.PRIMARY_EMOTIONS)})
+2. A clear, specific topic label (e.g., "Career Change Decision", "Family Vacation Planning")
+3. A confidence score (0.0 to 1.0)
+4. A detailed analysis of the emotional progression and key themes
 
-    Journal entries:
-    {entries_text}
+Journal entries:
+{entries_text}
 
-    Your response MUST be a valid JSON object in this exact format:
-    {{
-        "primary_emotion": "<emotion>",
-        "secondary_description": "<description>",
-        "confidence": <number>
-    }}"""
+Respond in this EXACT JSON format:
+{{
+    "primary_emotion": "<emotion>",
+    "topic": "<specific topic label>",
+    "confidence": <number>,
+    "detailed_analysis": "<your analysis>"
+}}"""
 
     def _get_system_prompt(self) -> str:
-        """Get system prompt for emotion analysis."""
-        return """You are an expert in emotional pattern analysis specializing in personal journals. 
-Your task is to identify emotional patterns and MUST respond with a valid JSON object containing exactly these fields:
-- primary_emotion (must be one of the provided emotions)
-- secondary_description (a detailed description)
-- confidence (a number between 0.0 and 1.0)
-Your response must be ONLY the JSON object with no other text."""
+        """Get system prompt for emotion and topic analysis."""
+        return """You are an expert in analyzing personal journals to identify emotional patterns and topics.
+For each group of related entries, you will:
+1. Identify the primary emotion
+2. Determine a specific, meaningful topic label
+3. Provide a confidence score
+4. Generate a detailed analysis
+Respond ONLY with the required JSON format, no other text."""
 
     def _find_closest_emotion(self, emotion: str) -> str:
         """Find closest matching primary emotion."""
