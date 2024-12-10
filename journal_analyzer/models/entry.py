@@ -16,6 +16,8 @@ class JournalEntry:
     date: datetime
     content: str
     day_of_week: str
+    month: int
+    year: int
     word_count: int
     embedding: Optional[List[float]] = None
     

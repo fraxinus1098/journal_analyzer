@@ -115,23 +115,35 @@ class PatternDetector:
         temporal_features: np.ndarray
     ) -> np.ndarray:
         """Perform HDBSCAN clustering on combined features."""
-        # Combine embedding and temporal features
+        # Normalize embedding matrix (using L2 norm)
+        normalized_embeddings = embedding_matrix / np.linalg.norm(embedding_matrix, axis=1)[:, np.newaxis]
+        
+        # Scale temporal features to [0,1] range
+        temporal_scaled = (temporal_features - temporal_features.min()) / (temporal_features.max() - temporal_features.min())
+        
+        # Combine features with weighted temporal component
         combined_features = np.hstack([
-            embedding_matrix,
-            temporal_features * self.temporal_weight
+            normalized_embeddings,
+            temporal_scaled * self.temporal_weight
         ])
         
-        # Scale features
-        scaled_features = self.scaler.fit_transform(combined_features)
-        
-        # Perform clustering
+        # Perform clustering with adjusted parameters
         clusterer = hdbscan.HDBSCAN(
             min_cluster_size=self.min_cluster_size,
             min_samples=self.min_samples,
-            metric='euclidean'
+            metric='euclidean',  # Changed from 'cosine' to 'euclidean'
+            cluster_selection_epsilon=0.3,
+            alpha=1.0,
+            cluster_selection_method='eom'
         )
         
-        cluster_labels = clusterer.fit_predict(scaled_features)
+        # Fit and predict clusters
+        cluster_labels = clusterer.fit_predict(combined_features)
+        
+        # Log clustering statistics
+        n_noise = sum(cluster_labels == -1)
+        n_clusters = len(set(cluster_labels)) - (1 if -1 in cluster_labels else 0)
+        logger.info(f"Clustering stats: {n_clusters} clusters found, {n_noise} noise points")
         
         return cluster_labels
     
